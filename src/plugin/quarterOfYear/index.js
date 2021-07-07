@@ -19,6 +19,16 @@ export default (o, c) => {
     return oldAdd.bind(this)(number, units)
   }
 
+  const oldSubtract = proto.subtract
+  proto.subtract = function (number, units) {
+    number = Number(number) // eslint-disable-line no-param-reassign
+    const unit = this.$utils().p(units)
+    if (unit === Q) {
+      return this.subtract(number * 3, M)
+    }
+    return oldSubtract.bind(this)(number, units)
+  };
+
   const oldStartOf = proto.startOf
   proto.startOf = function (units, startOf) {
     const utils = this.$utils()
